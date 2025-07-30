@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MYfretes - Orçamento Limpo</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+    /* Reset básico */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #faf8f7;
+      color: #2e0854; /* Roxo escuro */
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: #fff;
+      border-radius: 16px;
+      max-width: 600px;
+      width: 100%;
+      padding: 32px 36px;
+      box-shadow: 0 12px 30px rgba(255, 102, 0, 0.2);
+      transition: box-shadow 0.3s ease;
+      position: relative;
+    }
+    .container:hover {
+      box-shadow: 0 18px 40px rgba(255, 204, 0, 0.4);
+    }
+
+    h1 {
+      font-weight: 600;
+      font-size: 2.4rem;
+      color: #6a0dad; /* Roxo principal */
+      margin-bottom: 28px;
+      text-align: center;
+    }
+
+    h3 {
+      font-weight: 600;
+      font-size: 1.3rem;
+      margin-top: 32px;
+      margin-bottom: 14px;
+      color: #ff6600; /* Laranja */
+      border-left: 4px solid #ff6600;
+      padding-left: 12px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #4b007f; /* Roxo médio */
+      cursor: pointer;
+      user-select: none;
+      transition: color 0.2s ease;
+    }
+
+    label:hover {
+      color: #ffcc00; /* Amarelo */
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 1rem;
+      font-weight: 400;
+      color: #2e0854; /* Roxo escuro */
+      border: 2px solid #6a0dad; /* Roxo */
+      border-radius: 12px;
+      background: #f7f2fa;
+      transition:
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+      font-family: inherit;
+      outline-offset: 2px;
+    }
+
+    input[type="text"]:focus,
+    input[type="number"]:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #ffcc00; /* Amarelo */
+      box-shadow: 0 0 10px #ffcc00aa;
+      background: #fff;
+      font-weight: 600;
+      outline: none;
+    }
+
+    select {
+      cursor: pointer;
+      appearance: none;
+      background-image:
+        linear-gradient(45deg, transparent 50%, #ff6600 50%),
+        linear-gradient(135deg, #ff6600 50%, transparent 50%);
+      background-position:
+        calc(100% - 20px) calc(1em + 4px),
+        calc(100% - 15px) calc(1em + 4px);
+      background-size: 8px 8px;
+      background-repeat: no-repeat;
+    }
+
+    /* Grid para inputs */
+    .grid2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px 28px;
+      margin-top: 12px;
+    }
+
+    /* Campo extra para ajudante */
+    #ajudanteCampos {
+      margin-top: 22px;
+      padding: 24px 20px;
+      background: #fff5cc; /* Amarelo claro */
+      border-radius: 12px;
+      border-left: 4px solid #ffcc00; /* Amarelo */
+      color: #662e00; /* Marrom escuro para contraste */
+      font-weight: 500;
+      font-size: 1rem;
+      transition: opacity 0.35s ease, max-height 0.35s ease;
+      overflow: hidden;
+      max-height: 1000px;
+      opacity: 1;
+    }
+    #ajudanteCampos.hidden {
+      max-height: 0;
+      opacity: 0;
+      padding: 0 20px;
+      border: none;
+      pointer-events: none;
+    }
+
+    /* Botão WhatsApp */
+    #linkWhatsapp {
+      display: block;
+      background: linear-gradient(45deg, #6a0dad, #ffcc00, #ff6600);
+      color: #2e0854;
+      font-weight: 700;
+      font-size: 1.25rem;
+      padding: 16px 0;
+      margin-top: 36px;
+      border-radius: 14px;
+      border: none;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(106, 13, 173, 0.6);
+      user-select: none;
+      position: relative;
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+    }
+
+    #linkWhatsapp:hover,
+    #linkWhatsapp:focus {
+      background: linear-gradient(135deg, #ffcc00, #ff6600, #6a0dad);
+      box-shadow: 0 12px 32px rgba(255, 204, 0, 0.8);
+      transform: translateY(-2px);
+      outline: none;
+      color: #2e0854;
+    }
+
+    #linkWhatsapp::before {
+      content: '📲';
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.8rem;
+      transition: transform 0.3s ease;
+    }
+
+    #linkWhatsapp:hover::before,
+    #linkWhatsapp:focus::before {
+      transform: translateY(-50%) scale(1.3);
+    }
+
+    /* Link site */
+    .link-site {
+      display: block;
+      text-align: center;
+      margin-top: 26px;
+      color: #6a0dad; /* Roxo */
+      font-weight: 600;
+      font-size: 1.1rem;
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      user-select: none;
+      transition: color 0.3s ease;
+    }
+    .link-site:hover,
+    .link-site:focus {
+      color: #ff6600; /* Laranja */
+      text-decoration: underline;
+      outline: none;
+    }
+
+    /* Placeholder */
+    ::placeholder {
+      color: #9e7dd9; /* Roxo claro */
+      font-style: italic;
+    }
+
+  </style>
+</head>
+<body>
+  <main class="container" role="main" aria-label="Formulário de Orçamento MYfretes">
+    <h1>MYfretes - Orçamento</h1>
+
+    <label for="nome">Nome:</label>
+    <input type="text" id="nome" placeholder="Digite seu nome completo" autocomplete="name" />
+
+    <h3>Endereço de Retirada</h3>
+    <div class="grid2">
+      <div>
+        <label for="rua1">Rua:</label>
+        <input type="text" id="rua1" placeholder="Ex: Rua das Flores" autocomplete="street-address" />
+      </div>
+      <div>
+        <label for="bairro1">Bairro:</label>
+        <input type="text" id="bairro1" placeholder="Ex: Centro" autocomplete="address-level2" />
+      </div>
+      <div>
+        <label for="numero1">Número:</label>
+        <input type="text" id="numero1" placeholder="Ex: 123" autocomplete="address-line1" />
+      </div>
+      <div>
+        <label for="cidade1">Cidade:</label>
+        <input type="text" id="cidade1" placeholder="Ex: Belo Horizonte" autocomplete="address-level1" />
+      </div>
+    </div>
+
+    <h3>Endereço de Entrega</h3>
+    <div class="grid2">
+      <div>
+        <label for="rua2">Rua:</label>
+        <input type="text" id="rua2" placeholder="Ex: Avenida Central" autocomplete="street-address" />
+      </div>
+      <div>
+        <label for="bairro2">Bairro:</label>
+        <input type="text" id="bairro2" placeholder="Ex: Bairro Novo" autocomplete="address-level2" />
+      </div>
+      <div>
+        <label for="numero2">Número:</label>
+        <input type="text" id="numero2" placeholder="Ex: 456" autocomplete="address-line1" />
+      </div>
+      <div>
+        <label for="cidade2">Cidade:</label>
+        <input type="text" id="cidade2" placeholder="Ex: Contagem" autocomplete="address-level1" />
+      </div>
+    </div>
+
+    <label for="itens">Itens a transportar (separados por vírgula):</label>
+    <input type="text" id="itens" placeholder="Ex: mesa, cadeiras, sofá" />
+
+    <label for="ajudante">Precisa de ajudante?</label>
+    <select id="ajudante" aria-controls="ajudanteCampos" onchange="mostrarCampos()">
+      <option value="nao">Não</option>
+      <option value="sim">Sim</option>
+    </select>
+
+    <section id="ajudanteCampos" class="hidden" role="region" aria-live="polite" aria-label="Campos adicionais para ajudante">
+      <div class="grid2">
+        <div>
+          <label for="qntAjudantes">Quantos ajudantes?</label>
+          <input type="number" id="qntAjudantes" min="1" placeholder="Ex: 2" />
+        </div>
+        <div>
+          <label for="acesso1">Apartamento ou casa na retirada:</label>
+          <input type="text" id="acesso1" placeholder="Ex: Apartamento" />
+        </div>
+        <div>
+          <label for="local1">Local de retirada é de fácil acesso?</label>
+          <input type="text" id="local1" placeholder="Sim/Não" />
+        </div>
+        <div>
+          <label for="escadas1">Escadas, elevador ou local plano (retirada):</label>
+          <input type="text" id="escadas1" placeholder="Ex: Escadas" />
+        </div>
+        <div>
+          <label for="acesso2">Apartamento ou casa no destino:</label>
+          <input type="text" id="acesso2" placeholder="Ex: Casa" />
+        </div>
+        <div>
+          <label for="local2">Local de destino é de fácil acesso?</label>
+          <input type="text" id="local2" placeholder="Sim/Não" />
+        </div>
+        <div>
+          <label for="escadas2">Escadas, elevador ou local plano (destino):</label>
+          <input type="text" id="escadas2" placeholder="Ex: Elevador" />
+        </div>
+        <div>
+          <label for="desmontar">Algum item será desmontado?</label>
+          <input type="text" id="desmontar" placeholder="Sim/Não" />
+        </div>
+        <div style="grid-column: span 2;">
+          <label for="desmItens">Quais itens serão desmontados?</label>
+          <input type="text" id="desmItens" placeholder="Ex: mesa, estante" />
+        </div>
+      </div>
+    </section>
+
+    <a href="#" id="linkWhatsapp" role="button" aria-label="Enviar orçamento para o WhatsApp" tabindex="0">
+      Enviar Orçamento para o WhatsApp
+    </a>
+
+    <a href="https://myfretes-site.com" target="_blank" rel="noopener noreferrer" class="link-site" aria-label="Visitar site oficial MYfretes">
+      Visite nosso site oficial
+    </a>
+  </main>
+
+  <script>
+    function mostrarCampos() {
+      const ajuda = document.getElementById('ajudante').value;
+      const campos = document.getElementById('ajudanteCampos');
+      if (ajuda === 'sim') {
+        campos.classList.remove('hidden');
+      } else {
+        campos.classList.add('hidden');
+      }
+    }
+
+    document.getElementById('linkWhatsapp').addEventListener('click', function(event) {
+      event.preventDefault();
+
+      const nome = document.getElementById('nome').value.trim().toUpperCase();
+      const rua1 = document.getElementById('rua1').value.trim();
+      const bairro1 = document.getElementById('bairro1').value.trim();
+      const numero1 = document.getElementById('numero1').value.trim();
+      const cidade1 = document.getElementById('cidade1').value.trim();
+      const rua2 = document.getElementById('rua2').value.trim();
+      const bairro2 = document.getElementById('bairro2').value.trim();
+      const numero2 = document.getElementById('numero2').value.trim();
+      const cidade2 = document.getElementById('cidade2').value.trim();
+      const itens = document.getElementById('itens').value.trim()
+        .split(',')
+        .map(i => i.trim())
+        .filter(i => i)
+        .map(i => `- ${i}`)
+        .join('\n');
+      const ajudante = document.getElementById('ajudante').value;
+
+      if(!nome || !rua1 || !bairro1 || !numero1 || !cidade1 || !rua2 || !bairro2 || !numero2 || !cidade2 || !itens){
+        alert('Por favor, preencha todos os campos obrigatórios.');
+        return;
+      }
+
+      let msg = `📦 *ORÇAMENTO MYfretes*\n\n`;
+      msg += `👤 *Cliente:* ${nome}\n\n`;
+      msg += `📍 *Endereço de RETIRADA:*\n🏠 Rua: ${rua1}\n🏙️ Bairro: ${bairro1}\n🔢 Nº: ${numero1}\n🌆 Cidade: ${cidade1}\n\n`;
+      msg += `🚚 *Endereço de ENTREGA:*\n🏠 Rua: ${rua2}\n🏙️ Bairro: ${bairro2}\n🔢 Nº: ${numero2}\n🌆 Cidade: ${cidade2}\n\n`;
+      msg += `📦 *Itens a transportar:*\n${itens}\n\n`;
+      msg += `🧑‍🤝‍🧑 *Precisa de ajudante:* ${ajudante.toUpperCase()}\n`;
+
+      if (ajudante === 'sim') {
+        const qnt = document.getElementById('qntAjudantes').value.trim();
+        const acesso1 = document.getElementById('acesso1').value.trim();
+        const local1 = document.getElementById('local1').value.trim();
+        const escadas1 = document.getElementById('escadas1').value.trim();
+        const acesso2 = document.getElementById('acesso2').value.trim();
+        const local2 = document.getElementById('local2').value.trim();
+        const escadas2 = document.getElementById('escadas2').value.trim();
+        const desmontar = document.getElementById('desmontar').value.trim();
+        const desmItens = document.getElementById('desmItens').value.trim();
+
+        msg += `👥 *Quantidade:* ${qnt || 'N/A'} ajudantes\n\n`;
+        msg += `🔓 *Retirada:*\n🏘️ Tipo: ${acesso1 || 'N/A'}\n🚪 Fácil acesso: ${local1 || 'N/A'}\n↕️ Escadas/Elevador: ${escadas1 || 'N/A'}\n\n`;
+        msg += `📦 *Entrega:*\n🏘️ Tipo: ${acesso2 || 'N/A'}\n🚪 Fácil acesso: ${local2 || 'N/A'}\n↕️ Escadas/Elevador: ${escadas2 || 'N/A'}\n\n`;
+        msg += `🛠️ *Itens desmontados:* ${desmontar || 'N/A'}\n🔧 *Quais:* ${desmItens || 'N/A'}\n\n`;
+      }
+
+      msg += `✅ Em breve entraremos em contato com você!`;
+
+      const url = `https://wa.me/5531975135130?text=${encodeURIComponent(msg)}`;
+      window.open(url, '_blank');
+    });
+  </script>
+</body>
+</html>
